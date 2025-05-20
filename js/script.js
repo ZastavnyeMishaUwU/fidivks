@@ -1,7 +1,7 @@
  const canvas = document.getElementById('simulationCanvas');
         const ctx = canvas.getContext('2d');
         
-        // Параметри симуляції
+       
         let mass1 = 1.5;
         let mass2 = 2.0;
         let velocity1 = { x: 2.0, y: 0 };
@@ -9,17 +9,17 @@
         let elasticity = 1.0;
         let impactType = 'central';
         
-        // Позиції куль та їх радіуси
+       
         const ballRadius = 25;
         let ball1 = { x: 200, y: 200 };
         let ball2 = { x: 500, y: 200 };
         
-        // Змінні анімації
+        
         let animationId = null;
         let isRunning = false;
         let collisionType = 'head';
         
-        // Елементи інтерфейсу
+        
         const mass1Input = document.getElementById('mass1');
         const mass2Input = document.getElementById('mass2');
         const velocity1Input = document.getElementById('velocity1');
@@ -40,7 +40,7 @@
         const collisionAngleDisplay = document.getElementById('collisionAngle');
         const collisionTypeRadios = document.querySelectorAll('input[name="collisionType"]');
         
-        // Обробники подій
+     
         startBtn.addEventListener('click', startSimulation);
         resetBtn.addEventListener('click', resetSimulation);
         randomBtn.addEventListener('click', setRandomParameters);
@@ -81,28 +81,28 @@
         }
         
         function setRandomParameters() {
-            // Випадкові маси
+            //маси
             mass1Input.value = (Math.random() * 4 + 0.5).toFixed(1);
             mass2Input.value = (Math.random() * 4 + 0.5).toFixed(1);
             
-            // Випадкові швидкості
+            //швидкості
             velocity1Input.value = (Math.random() * 5 + 0.5).toFixed(1);
             velocity2Input.value = (Math.random() * 5 + 0.5).toFixed(1);
             
-            // Випадкові кути
+            //кути
             angle1Input.value = Math.floor(Math.random() * 360);
             angle2Input.value = Math.floor(Math.random() * 360);
             
-            // Випадкова пружність
+            //пружність
             elasticityInput.value = Math.floor(Math.random() * 100);
             updateElasticity();
             
-            // Випадковий тип поштовху
+            //тип поштовху
             const impactTypes = ['central', 'glancing', 'partial'];
             impactTypeSelect.value = impactTypes[Math.floor(Math.random() * impactTypes.length)];
             updateImpactType();
             
-            // Випадковий тип зіткнення
+            //тип зіткнення
             const types = ['head', 'oblique', 'rightAngle'];
             const randomType = types[Math.floor(Math.random() * types.length)];
             document.querySelector(`input[value="${randomType}"]`).checked = true;
@@ -112,7 +112,7 @@
         function startSimulation() {
             if (isRunning) return;
             
-            // Отримуємо значення з полів вводу
+       
             mass1 = parseFloat(mass1Input.value);
             mass2 = parseFloat(mass2Input.value);
             
@@ -150,17 +150,17 @@
             }
             startBtn.disabled = false;
             
-            // Скидаємо позиції
+
             ball1 = { x: 200, y: canvas.height / 2 };
             ball2 = { x: 600, y: canvas.height / 2 };
             
-            // Перемальовуємо початковий стан
+          
             drawBalls();
             updatePhysicsInfo();
         }
         
         function animate() {
-            // Рух куль
+            // Рух 
             ball1.x += velocity1.x;
             ball1.y += velocity1.y;
             ball2.x += velocity2.x;
@@ -176,22 +176,22 @@
                 const collisionAngle = Math.atan2(dy, dx);
                 collisionAngleDisplay.textContent = (collisionAngle * 180 / Math.PI).toFixed(1);
                 
-                // Розрахунок швидкостей після зіткнення
+                // Розрахунок після зіткнення
                 const rotatedV1 = rotate(velocity1, -collisionAngle);
                 const rotatedV2 = rotate(velocity2, -collisionAngle);
                 
-                // Застосовуємо різні типи поштовхів
+                //різні типи поштовхів
                 let impactFactor = 1.0;
                 if (impactType === 'glancing') impactFactor = 0.5;
                 if (impactType === 'partial') impactFactor = 0.7 + Math.random() * 0.3;
                 
-                // Розрахунок нових швидкостей (1D зіткнення вздовж лінії центру)
+                
                 const v1f = ((mass1 - elasticity * impactFactor * mass2) * rotatedV1.x + 
                             (1 + elasticity * impactFactor) * mass2 * rotatedV2.x) / (mass1 + mass2);
                 const v2f = ((mass2 - elasticity * impactFactor * mass1) * rotatedV2.x + 
                             (1 + elasticity * impactFactor) * mass1 * rotatedV1.x) / (mass1 + mass2);
                 
-                // Оновлюємо швидкості
+                // Нові швидкості
                 rotatedV1.x = v1f;
                 rotatedV2.x = v2f;
                 
@@ -209,7 +209,7 @@
                 ball2.y -= moveY;
             }
             
-            // Перевірка меж canvas
+            // Перевірка меж 
             handleBoundaryCollision(ball1, velocity1);
             handleBoundaryCollision(ball2, velocity2);
             
@@ -250,7 +250,7 @@
         function drawBalls() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Малюємо кулю 1
+            //куля 1
             ctx.beginPath();
             ctx.arc(ball1.x, ball1.y, ballRadius, 0, Math.PI * 2);
             ctx.fillStyle = '#4a8fd7';
@@ -259,14 +259,14 @@
             ctx.lineWidth = 2;
             ctx.stroke();
             
-            // Підпис маси для кулі 1
+            // Підпис для кулі 1
             ctx.fillStyle = 'white';
             ctx.font = 'bold 14px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(`${mass1} кг`, ball1.x, ball1.y);
             
-            // Малюємо кулю 2
+            //куля 2
             ctx.beginPath();
             ctx.arc(ball2.x, ball2.y, ballRadius, 0, Math.PI * 2);
             ctx.fillStyle = '#ff6b6b';
@@ -274,15 +274,15 @@
             ctx.strokeStyle = '#d43f3f';
             ctx.stroke();
             
-            // Підпис маси для кулі 2
+            // Підпис для кулі 2
             ctx.fillStyle = 'white';
             ctx.fillText(`${mass2} кг`, ball2.x, ball2.y);
             
-            // Малюємо вектори швидкостей
+            //вектори швидкостей
             drawVector(ball1.x, ball1.y, velocity1.x * 20, velocity1.y * 20, '#2a5885');
             drawVector(ball2.x, ball2.y, velocity2.x * 20, velocity2.y * 20, '#d43f3f');
             
-            // Малюємо лінію центру мас
+            //лінію центру мас
             const comX = (mass1 * ball1.x + mass2 * ball2.x) / (mass1 + mass2);
             const comY = (mass1 * ball1.y + mass2 * ball2.y) / (mass1 + mass2);
             ctx.beginPath();
@@ -299,7 +299,7 @@
             ctx.lineWidth = 2;
             ctx.stroke();
             
-            // Малюємо стрілочку
+            // стрілочки
             const angle = Math.atan2(dy, dx);
             ctx.beginPath();
             ctx.moveTo(x + dx, y + dy);
@@ -330,7 +330,7 @@
             const comVx = totalPx / (mass1 + mass2);
             const comVy = totalPy / (mass1 + mass2);
             
-            // Оновлення відображення даних
+            //відображення даних
             kineticEnergyDisplay.textContent = totalKE.toFixed(2);
             momentumXDisplay.textContent = totalPx.toFixed(2);
             momentumYDisplay.textContent = totalPy.toFixed(2);
