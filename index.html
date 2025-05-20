@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Розширена симуляція зіткнень</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Розширена симуляція зіткнень</h1>
+    
+    <div class="controls">
+        <h2>Основні параметри</h2>
+        <div class="control-group">
+            <label>Тип зіткнення:</label>
+            <div class="collision-type">
+                <label><input type="radio" name="collisionType" value="head" checked> Лобове</label>
+                <label><input type="radio" name="collisionType" value="oblique"> Косе</label>
+                <label><input type="radio" name="collisionType" value="rightAngle"> Під прямим кутом</label>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label>Маса 1 (кг): <input type="number" id="mass1" value="1.5" step="0.1" min="0.1"></label>
+            <label>Маса 2 (кг): <input type="number" id="mass2" value="2.0" step="0.1" min="0.1"></label>
+        </div>
+        
+        <div class="control-group" id="velocity1Group">
+            <label>Швидкість 1 (м/с): <input type="number" id="velocity1" value="2.0" step="0.1"></label>
+            <label>Кут 1 (°): <input type="number" id="angle1" value="0" step="1" min="0" max="360"></label>
+        </div>
+        
+        <div class="control-group" id="velocity2Group">
+            <label>Швидкість 2 (м/с): <input type="number" id="velocity2" value="-1.0" step="0.1"></label>
+            <label>Кут 2 (°): <input type="number" id="angle2" value="180" step="1" min="0" max="360"></label>
+        </div>
+        
+        <div class="control-group">
+            <label>Пружність: <input type="range" id="elasticity" min="0" max="100" value="100"> <span id="elasticityValue">100%</span></label>
+        </div>
+        
+        <div class="control-group">
+            <label>Тип поштовху:</label>
+            <select id="impactType">
+                <option value="central">Центральний</option>
+                <option value="glancing">Ковзний</option>
+                <option value="partial">Частковий</option>
+            </select>
+        </div>
+        
+        <button id="startBtn">Почати симуляцію</button>
+        <button id="resetBtn">Скинути</button>
+        <button id="randomBtn">Випадкові параметри</button>
+    </div>
+    
+    <canvas id="simulationCanvas" width="800" height="400"></canvas>
+    
+    <div class="data-display">
+        <h2>Фізичні величини</h2>
+        <p>Сумарна кінетична енергія: <span id="kineticEnergy">0</span> Дж</p>
+        <p>Сумарний імпульс (X): <span id="momentumX">0</span> кг·м/с</p>
+        <p>Сумарний імпульс (Y): <span id="momentumY">0</span> кг·м/с</p>
+        <p>Швидкість центру мас (X): <span id="comVelocityX">0</span> м/с</p>
+        <p>Швидкість центру мас (Y): <span id="comVelocityY">0</span> м/с</p>
+        <p>Кут зіткнення: <span id="collisionAngle">0</span>°</p>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
